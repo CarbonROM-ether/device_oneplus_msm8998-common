@@ -63,7 +63,9 @@
     <integer name="config_autoBrightnessDarkeningLightDebounce">4000</integer>
     <integer name="config_autoBrightnessLightSensorRate">500</integer>
 
-    <!-- Minimum screen brightness allowed by the power manager. -->
+    <!-- Screen brightness used to dim the screen when the user activity
+         timeout expires.  May be less than the minimum allowed brightness setting
+         that can be set by the user. -->
     <integer name="config_screenBrightnessDim">6</integer>
 
     <!-- Minimum screen brightness setting allowed by the power manager.
@@ -74,24 +76,20 @@
          Must be in the range specified by minimum and maximum. -->
     <integer name="config_screenBrightnessSettingDefault">46</integer>
 
-    <!--<bool name="config_deviceHasVariableButtonBrightness">true</bool>-->
-
-    <!-- If enabled, capacitive keys will only light up when pressed.
-         Otherwise, the buttons will light up whenever the user interacts with the device -->
-    <!--<bool name="config_buttonLightOnKeypressOnly">true</bool>-->
-
     <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
     <bool name="config_intrusiveNotificationLed">true</bool>
 
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
         <item>0</item>
+        <item>7</item>
         <item>10</item>
     </integer-array>
 
     <!-- Vibrator pattern for feedback about touching a virtual key -->
     <integer-array name="config_virtualKeyVibePattern">
         <item>0</item>
+        <item>5</item>
         <item>10</item>
     </integer-array>
 
@@ -129,17 +127,19 @@
          does not require auto-restore. -->
     <!-- the 6th element indicates boot-time dependency-met value. -->
     <string-array translatable="false" name="networkAttributes">
-        <item>wifi,1,1,1,-1,true</item>
-        <item>mobile,0,0,0,-1,true</item>
-        <item>mobile_mms,2,0,4,60000,true</item>
-        <item>mobile_supl,3,0,2,60000,true</item>
-        <item>mobile_dun,4,0,2,60000,true</item>
-        <item>mobile_hipri,5,0,3,60000,true</item>
-        <item>mobile_fota,10,0,2,60000,true</item>
-        <item>mobile_ims,11,0,2,60000,true</item>
-        <item>mobile_cbs,12,0,2,60000,true</item>
-        <item>bluetooth,7,7,2,-1,true</item>
-        <item>mobile_emergency,15,0,5,-1,true</item>
+        <item>"wifi,1,1,1,-1,true"</item>
+        <item>"mobile,0,0,0,-1,true"</item>
+        <item>"mobile_mms,2,0,2,60000,true"</item>
+        <item>"mobile_supl,3,0,2,60000,true"</item>
+        <item>"mobile_dun,4,0,2,60000,true"</item>
+        <item>"mobile_hipri,5,0,3,60000,true"</item>
+        <item>"mobile_fota,10,0,2,60000,true"</item>
+        <item>"mobile_ims,11,0,2,60000,true"</item>
+        <item>"mobile_cbs,12,0,2,60000,true"</item>
+        <item>"mobile_ia,14,0,2,-1,true"</item>
+        <item>"bluetooth,7,7,2,-1,true"</item>
+        <item>"ethernet,9,9,9,-1,true"</item>
+        <item>"mobile_emergency,15,0,2,-1,true"</item>
     </string-array>
 
     <!-- This string array should be overridden by the device to present a list of radio
@@ -166,7 +166,8 @@
          should be empty.  An example would be "softap.*" -->
     <string-array translatable="false" name="config_tether_wifi_regexs">
         <item>"wlan0"</item>
-        <item>"softap.*"</item>
+        <item>"wigig0"</item>
+        <item>"softap0"</item>
     </string-array>
 
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
@@ -253,16 +254,8 @@
     <!-- Is the device capable of hot swapping an ICC Card -->
     <bool name="config_hotswapCapable">true</bool>
 
-    <!-- Flag indicating emergency calls will always use IMS irrespective of the state of
-    the IMS connection -->
-
-    <!-- Flag specifying whether VoLTE & VT is available on device -->
+    <!-- Flag specifying whether VoLTE is available on device -->
     <bool name="config_device_volte_available">true</bool>
-
-    <!-- Flag specifying whether VT should be available for carrier: independent of
-         carrier provisioning. If false: hard disabled. If true: then depends on carrier
-         provisioning, availability etc -->
-    <bool name="config_carrier_vt_available">true</bool>
 
     <!-- Flag specifying whether VoLTE should be available for carrier: independent of
          carrier provisioning. If false: hard disabled. If true: then depends on carrier
@@ -271,6 +264,9 @@
 
     <!-- Flag specifying whether VoLTE TTY is supported -->
     <bool name="config_carrier_volte_tty_supported">false</bool>
+
+    <!-- Flag specifying whether VT is available on device -->
+    <bool name="config_device_vt_available">true</bool>
 
     <!-- Flag specifying whether WFC over IMS is available on device -->
     <bool name="config_device_wfc_ims_available">true</bool>
@@ -297,7 +293,7 @@
     <!-- Screen brightness used to dim the screen while dozing in a very low power state.
          May be less than the minimum allowed brightness setting
          that can be set by the user. -->
-    <integer name="config_screenBrightnessDoze">17</integer>
+    <integer name="config_screenBrightnessDoze">4</integer>
 
     <!-- If true, the doze component is not started until after the screen has been
           turned off and the screen off animation has been performed. -->
@@ -405,8 +401,11 @@
     <!-- Flag specifying whether or not IMS will use the ImsResolver dynamically -->
     <bool name="config_dynamic_bind_ims">true</bool>
 
-    <!-- Whether or not swipe up gesture's opt-in setting is available on this device -->
-    <bool name="config_swipe_up_gesture_setting_available">true</bool>
+    <!-- Enable ACS (auto channel selection) for Wifi hotspot (SAP) -->
+    <bool translatable="false" name="config_wifi_softap_acs_supported">true</bool>
+
+    <!-- Enable 802.11ac for Wifi hotspot (SAP) -->
+    <bool translatable="false" name="config_wifi_softap_ieee80211ac_supported">true</bool>
 
     <!-- Number of physical SIM slots on the device. This includes both eSIM and pSIM slots, and
          is not necessarily the same as the number of phones/logical modems supported by the device.
@@ -414,40 +413,4 @@
          or a single SIM device can have 1 phones/logical modems, but 2 physical slots (one eSIM
          and one pSIM) -->
     <integer name="config_num_physical_slots">2</integer>
-
-    <!-- Whether device has dash charging support -->
-    <bool name="config_hasDashCharger">true</bool>
-
-    <!-- If true, the display will be shifted around in ambient mode. -->
-    <bool name="config_enableBurnInProtection">true</bool>
-
-    <!-- Control whether the always on display mode is available. This should only be enabled on
-         devices where the display has be tuned to be power efficient in DOZE and/or DOZE_SUSPEND
-         states. -->
-    <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
-
-    <!-- Whether the display blanks itself when transitioning from a doze to a non-doze state -->
-    <bool name="config_displayBlanksAfterDoze">true</bool>
-
-    <!-- Hardware 'face' keys present on the device, stored as a bit field.
-         This integer should equal the sum of the corresponding value for each
-         of the following keys present:
-          1 - Home
-          2 - Back
-          4 - Menu
-          8 - Assistant (search)
-          16 - App switch
-          32 - Camera
-       For example, a device with Back, Home and AppSwitch keys would set this
-       config to 19. -->
-    <integer name="config_deviceHardwareKeys">19</integer>
-
-    <!-- Override the default detection behavior for the framework method
-         android.view.ViewConfiguration#hasPermanentMenuKey().
-         Valid settings are:
-         0 - No change. Use the default autodetection behavior.
-         1 - The device DOES have a permanent menu key; ignore autodetection.
-         2 - The device DOES NOT have a permanent menu key; ignore autodetection. -->
-    <integer name="config_overrideHasPermanentMenuKey">2</integer>
-
 </resources>
