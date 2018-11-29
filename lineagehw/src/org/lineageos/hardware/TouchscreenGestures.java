@@ -17,9 +17,9 @@
 
 package org.lineageos.hardware;
 
-import com.android.internal.util.aosip.TouchscreenGesture;
+import com.android.internal.util.invictrix.TouchscreenGesture;
 
-import com.android.internal.util.aosip.FileUtils;
+import com.android.internal.util.invictrix.FileUtils;
 
 /**
  * Touchscreen gestures API

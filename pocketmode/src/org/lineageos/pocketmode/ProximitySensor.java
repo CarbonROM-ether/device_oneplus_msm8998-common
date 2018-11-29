@@ -24,6 +24,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.android.internal.util.invictrix.FileUtils;
+
 public class ProximitySensor implements SensorEventListener {
 
     private static final boolean DEBUG = false;
